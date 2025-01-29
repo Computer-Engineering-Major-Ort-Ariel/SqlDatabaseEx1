@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <style>
+      a {
+        margin: 5px;
+      }
+      #loggedDiv {
+        height: 40px;
+        display: none;
+      }
+    </style>
+    <title>Index Page</title>
+  </head>
 
-<head>
-  <style>
-    a {
-      margin: 5px;
-    }
-  </style>
-  <title>Index Page</title>
-</head>
+  <body>
+    <a href="signUp.html">Sign Up</a>
+    <a href="logIn.html">Log In</a>
+    <a href="shoppingCart.html">Shopping Cart</a>
 
-<body>
-  <h1>HyperMarket</h1>
+    <button id="logOutButton">Log Out</button>
+    <h1>HyperMarket</h1>
 
-  <script type="module" src="index.js"></script>
-</body>
-
+    <script type="module" src="index.js"></script>
+  </body>
 </html>

@@ -5,6 +5,13 @@ type Catagory = {
   Title: string,
 };
 
+let logOutButton = document.querySelector("#logOutButton") as HTMLButtonElement;
+
+logOutButton.onclick = function() {
+  localStorage.removeItem("userId");
+  location.reload();
+};
+
 let catagories = await send("getCatagories", []) as Catagory[]; 
 
 for (let i = 0; i < catagories.length; i++) {
@@ -14,5 +21,3 @@ for (let i = 0; i < catagories.length; i++) {
 
   document.body.appendChild(a);
 }
-
-console.log(catagories);
