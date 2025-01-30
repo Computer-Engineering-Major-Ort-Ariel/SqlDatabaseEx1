@@ -1,9 +1,5 @@
 import { send } from "../utilities";
-
-type Product = {
-  Id: number,
-  Title: string,
-};
+import { Product } from "./types";
 
 let cartUl = document.querySelector("#cartUl") as HTMLUListElement;
 

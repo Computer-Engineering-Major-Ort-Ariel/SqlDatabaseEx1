@@ -96,13 +96,20 @@ class Program
           {
             var (username, password) = request.GetBody<(string, string)>();
 
-            var user = database.Users.First(
+            var user = database.Users.FirstOrDefault(
               user => user.Username == username && user.Password == password
             );
 
-            var userId = user.Id;
+            var userId = user?.Id;
 
             response.Send(userId);
+          }
+          else if (request.Path == "getUsername")
+          {
+            var userId = request.GetBody<string?>();
+            var username = database.Users.FirstOrDefault(user => user.Id == userId)?.Username;
+
+            response.Send(username);
           }
           else if (request.Path == "getCatagories")
           {
@@ -169,6 +176,10 @@ class Program
             response.Send(products);
           }
           else if (request.Path == "removePurchase")
+          {
+
+          }
+          else if (request.Path == "getRelevantProducts")
           {
 
           }

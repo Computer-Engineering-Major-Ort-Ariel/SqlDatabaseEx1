@@ -1,11 +1,28 @@
 import { send } from "../utilities";
+import { createProductComponent } from "./funcs";
+import { Catagory, Product } from "./types";
 
-type Catagory = {
-  Id: number,
-  Title: string,
-};
-
+let outDiv = document.querySelector("#outDiv") as HTMLDivElement;
+let inDiv = document.querySelector("#inDiv") as HTMLDivElement;
+let nameDiv = document.querySelector("#nameDiv") as HTMLDivElement;
 let logOutButton = document.querySelector("#logOutButton") as HTMLButtonElement;
+let catagoriesDiv = document.querySelector("#catagoriesDiv") as HTMLDivElement;
+let searchInput = document.querySelector("#searchInput") as HTMLInputElement;
+let searchButton = document.querySelector("#searchButton") as HTMLButtonElement;
+let searchUl = document.querySelector("#searchUl") as HTMLDivElement;
+
+
+let userId = localStorage.getItem("userId");
+let username = await send("getUsername", userId);
+
+if (username != null) {
+  nameDiv.innerText = `Welcome, ${username}!`;
+  inDiv.style.display = "block";
+}
+else {
+  localStorage.removeItem("userId");
+  outDiv.style.display = "block";
+}
 
 logOutButton.onclick = function() {
   localStorage.removeItem("userId");
@@ -19,5 +36,18 @@ for (let i = 0; i < catagories.length; i++) {
   a.innerText = catagories[i].Title;
   a.href = "catagory.html?catagoryId=" + catagories[i].Id;
 
-  document.body.appendChild(a);
+  catagoriesDiv.appendChild(a);
 }
+
+
+searchButton.onclick = async function() {
+  searchUl.innerHTML = "";
+  let products = await send("getRelevantProducts", searchInput.value) as Product[];
+
+  console.log(products);
+
+  for (let i = 0; i < products.length; i++) {
+    let li = await createProductComponent(userId, products[i]);
+    searchUl.appendChild(li);
+  }
+};
