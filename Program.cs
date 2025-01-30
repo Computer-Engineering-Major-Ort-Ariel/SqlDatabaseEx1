@@ -130,23 +130,47 @@ class Program
           }
           if (request.Path == "getAmount")
           {
+            var (userId, productId) = request.GetBody<(string, int)>();
 
+            int amount = database.Purchases.Count(
+              p => p.UserId == userId && p.ProductId == productId
+            );
+
+            response.Send(amount);
           }
           if (request.Path == "addProduct")
           {
+            var (userId, productId) = request.GetBody<(string, int)>();
 
+            database.Purchases.Add(new Purchase(userId, productId));
           }
           else if (request.Path == "removeProduct")
           {
+            var (userId, productId) = request.GetBody<(string, int)>();
 
+            Purchase? purchase = database.Purchases.FirstOrDefault(
+              p => p.UserId == userId && p.ProductId == productId
+            );
+
+            if (purchase != null)
+            {
+              database.Purchases.Remove(purchase);
+            }
           }
           else if (request.Path == "getProductsInCart")
           {
+            var userId = request.GetBody<string>();
 
+            var products = database
+              .Purchases
+              .Where(purchase => purchase.UserId == userId)
+              .Select(purchase => purchase.Product);
+
+            response.Send(products);
           }
           else if (request.Path == "removePurchase")
           {
-            
+
           }
           else
           {

@@ -21,7 +21,7 @@ let catagoryTitle = await send("getCatagoryTitle", catagoryId) as string;
 catagoryTitleH2.innerText = catagoryTitle;
 
 let products = await send("getProducts", catagoryId) as Product[];
-console.log(userId);
+
 for (let i = 0; i < products.length; i++) {
   let li = document.createElement("li");
   productsUl.appendChild(li);
@@ -31,19 +31,19 @@ for (let i = 0; i < products.length; i++) {
     minusButton.innerText = "-";
     minusButton.onclick = async function () {
       await send("removeProduct", [userId, products[i].Id]);
-      amountDiv.innerText = await send("getAmount", [userId, products[i].Id]);
+      amountSpan.innerText = await send("getAmount", [userId, products[i].Id]);
     };
     li.appendChild(minusButton);
 
-    let amountDiv = document.createElement("span");
-    amountDiv.innerText = await send("getAmount", [userId, products[i].Id]);
-    li.appendChild(amountDiv);
+    let amountSpan = document.createElement("span");
+    amountSpan.innerText = await send("getAmount", [userId, products[i].Id]);
+    li.appendChild(amountSpan);
 
     let plusButton = document.createElement("button");
     plusButton.innerText = "+";
     plusButton.onclick = async function () {
       send("addProduct", [userId, products[i].Id]);
-      amountDiv.innerText = await send("getAmount", [userId, products[i].Id]);
+      amountSpan.innerText = await send("getAmount", [userId, products[i].Id]);
     };
     li.appendChild(plusButton);
   }
