@@ -44,8 +44,6 @@ searchButton.onclick = async function() {
   searchUl.innerHTML = "";
   let products = await send("getRelevantProducts", searchInput.value) as Product[];
 
-  console.log(products);
-
   for (let i = 0; i < products.length; i++) {
     let li = await createProductComponent(userId, products[i]);
     searchUl.appendChild(li);
